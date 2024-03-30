@@ -74,6 +74,7 @@ dependencies {
     annotationProcessor(libs.androidx.room.room.compiler)
     ksp(libs.androidx.room.room.compiler)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
 
     //Hilt
     implementation(libs.androidx.hilt.navigation.compose)
