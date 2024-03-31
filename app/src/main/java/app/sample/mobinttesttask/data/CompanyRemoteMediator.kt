@@ -12,6 +12,7 @@ import app.sample.mobinttesttask.data.local.model.CompanyEntity
 import app.sample.mobinttesttask.data.mappers.toCompanyEntity
 import app.sample.mobinttesttask.data.network.NetworkCompanyClient
 import retrofit2.HttpException
+import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
@@ -49,6 +50,10 @@ class CompanyRemoteMediator @Inject constructor(
                 limit = state.config.pageSize
             )
 
+            if (listOfCompanyDto.isEmpty()) {
+                throw Exception("Bad request")
+            }
+
             companyDb.withTransaction {
 
                 if (loadType == LoadType.REFRESH) {
@@ -66,6 +71,8 @@ class CompanyRemoteMediator @Inject constructor(
         } catch (e: IOException) {
             MediatorResult.Error(e)
         } catch (e: HttpException) {
+            MediatorResult.Error(e)
+        } catch (e: Exception) {
             MediatorResult.Error(e)
         }
     }

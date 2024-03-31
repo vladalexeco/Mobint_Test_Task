@@ -7,7 +7,7 @@ import retrofit2.http.POST
 
 interface ApiService {
 
-    @POST("mobileapp/getAllCompaniesEr")
+    @POST("mobileapp/getAllCompanies")
     fun getCompaniesFromRemoteDataServer(
         @Header("TOKEN") token: String = "123",
         @Body requestBody: Map<String, Int>

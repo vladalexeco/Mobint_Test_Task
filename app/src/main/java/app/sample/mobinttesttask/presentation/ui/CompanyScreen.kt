@@ -5,8 +5,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -35,8 +38,11 @@ fun CompanyScreen(
     }
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 12.dp)
     ) {
+
         if (companies.loadState.refresh is LoadState.Loading) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center)
@@ -55,10 +61,20 @@ fun CompanyScreen(
                         )
                     }
                 }
-
-                item {
-                    if (companies.loadState.append is LoadState.Loading) {
-                        CircularProgressIndicator()
+                if (companies.loadState.append is LoadState.Error) {
+                    item {
+                        Button(
+                            modifier = Modifier.padding(12.dp),
+                            onClick = { companies.refresh() }
+                        ) {
+                            Text(text = "Server error. Retry")
+                        }
+                    }
+                } else {
+                    item {
+                        if (companies.loadState.append is LoadState.Loading) {
+                            CircularProgressIndicator()
+                        }
                     }
                 }
             }

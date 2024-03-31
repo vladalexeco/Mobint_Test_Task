@@ -26,18 +26,15 @@ class RetrofitNetworkCompanyClient @Inject constructor(
                     call: Call<CompanyDataResponse>,
                     response: Response<CompanyDataResponse>
                 ) {
-                    Log.d("RESPONSE", "RESPONSE")
                     val responseFromServer = response.body()
                     if (response.isSuccessful && responseFromServer != null) {
                         continuation.resume(responseFromServer.companies)
                     } else {
-                        Log.d("RESPONSE", "EMPTY")
                         continuation.resume(emptyList())
                     }
                 }
 
                 override fun onFailure(call: Call<CompanyDataResponse>, t: Throwable) {
-                    Log.d("ERROR", t.stackTraceToString())
                     continuation.resumeWithException(t)
                 }
             })
