@@ -9,7 +9,6 @@ import app.sample.mobinttesttask.data.CompanyRemoteMediator
 import app.sample.mobinttesttask.data.local.CompanyDatabase
 import app.sample.mobinttesttask.data.local.model.CompanyEntity
 import app.sample.mobinttesttask.data.network.ApiService
-import app.sample.mobinttesttask.data.network.CompanyDataResponse
 import app.sample.mobinttesttask.data.network.NetworkCompanyClient
 import app.sample.mobinttesttask.data.network.RetrofitNetworkCompanyClient
 import dagger.Module
@@ -19,7 +18,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import javax.inject.Singleton
 
 @Module

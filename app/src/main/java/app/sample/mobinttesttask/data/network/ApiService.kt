@@ -7,11 +7,11 @@ import retrofit2.http.POST
 
 interface ApiService {
 
-    @POST("mobileapp/getAllCompaniesIdeal")
+    @POST("mobileapp/getAllCompaniesEr")
     fun getCompaniesFromRemoteDataServer(
         @Header("TOKEN") token: String = "123",
         @Body requestBody: Map<String, Int>
-    ): CompanyDataResponse
+    ): Call<CompanyDataResponse>
 
     companion object {
         const val BASE_URL = "http://devapp.bonusmoney.pro/"

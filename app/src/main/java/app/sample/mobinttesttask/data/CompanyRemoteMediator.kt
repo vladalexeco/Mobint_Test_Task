@@ -1,5 +1,6 @@
 package app.sample.mobinttesttask.data
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -9,10 +10,7 @@ import app.sample.mobinttesttask.core.utils.OffsetSaver
 import app.sample.mobinttesttask.data.local.CompanyDatabase
 import app.sample.mobinttesttask.data.local.model.CompanyEntity
 import app.sample.mobinttesttask.data.mappers.toCompanyEntity
-import app.sample.mobinttesttask.data.network.ApiService
-import app.sample.mobinttesttask.data.network.CompanyDataResponse
 import app.sample.mobinttesttask.data.network.NetworkCompanyClient
-import app.sample.mobinttesttask.data.network.model.CompanyDto
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -47,8 +45,8 @@ class CompanyRemoteMediator @Inject constructor(
             }
 
             val listOfCompanyDto = networkCompanyClient.getCompanies(
-                offset = 0,
-                limit = 10
+                offset = offset,
+                limit = state.config.pageSize
             )
 
             companyDb.withTransaction {
