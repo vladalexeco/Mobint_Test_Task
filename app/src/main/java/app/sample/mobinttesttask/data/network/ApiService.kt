@@ -10,7 +10,7 @@ interface ApiService {
     @POST("mobileapp/getAllCompaniesIdeal")
     fun getCompaniesFromRemoteDataServer(
         @Header("TOKEN") token: String = "123",
-        @Body requestBody: Map<String, Any>
+        @Body requestBody: Map<String, Int>
     ): CompanyDataResponse
 
     companion object {
