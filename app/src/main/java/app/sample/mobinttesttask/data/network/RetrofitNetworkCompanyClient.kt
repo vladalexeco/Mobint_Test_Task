@@ -28,6 +28,7 @@ class RetrofitNetworkCompanyClient @Inject constructor(
                 ) {
                     val responseFromServer = response.body()
                     if (response.isSuccessful && responseFromServer != null) {
+                        OffsetSaver.setOffset(responseFromServer.offset)
                         continuation.resume(responseFromServer.companies)
                     } else {
                         continuation.resume(emptyList())

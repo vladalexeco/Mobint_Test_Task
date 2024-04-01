@@ -51,7 +51,7 @@ class CompanyRemoteMediator @Inject constructor(
             )
 
             if (listOfCompanyDto.isEmpty()) {
-                throw Exception("Bad request")
+                throw Exception("Bad response")
             }
 
             companyDb.withTransaction {

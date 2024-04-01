@@ -21,10 +21,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.sample.mobinttesttask.R
 import app.sample.mobinttesttask.domain.model.Company
+import app.sample.mobinttesttask.presentation.theme.LightGrey
 import app.sample.mobinttesttask.presentation.theme.MainBlue
 import app.sample.mobinttesttask.presentation.theme.Pink40
 import app.sample.mobinttesttask.presentation.theme.Pink80
@@ -35,7 +37,10 @@ import coil.compose.AsyncImage
 @Composable
 fun CompanyItem(
     company: Company,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onEyeButtonClick: () -> Unit,
+    onTrashButtonClick: () -> Unit,
+    onDetailsButtonClick: () -> Unit
 ) {
     Box(
         modifier = modifier
@@ -72,7 +77,7 @@ fun CompanyItem(
                     modifier = Modifier
                         .size(32.dp)
                         .clip(shape = CircleShape)
-                        .background(Color.Red)
+                        .background(Color.LightGray)
                 )
             }
 
@@ -95,7 +100,7 @@ fun CompanyItem(
                 )
 
                 Text(
-                    text = "баллов",
+                    text = stringResource(R.string.scores),
                     style = MaterialTheme.typography.bodyMedium,
                     color = company.textColor
                 )
@@ -109,7 +114,7 @@ fun CompanyItem(
                 ) {
                     Text(
                         modifier = Modifier.padding(bottom = 6.dp),
-                        text = "Кешбэк",
+                        text = stringResource(R.string.cashback),
                         style = MaterialTheme.typography.bodySmall,
                         color = company.textColor
                     )
@@ -133,7 +138,7 @@ fun CompanyItem(
                 Column {
                     Text(
                         modifier = Modifier.padding(bottom = 6.dp),
-                        text = "Уровень",
+                        text = stringResource(R.string.level),
                         style = MaterialTheme.typography.bodySmall,
                         color = company.textColor
                     )
@@ -160,13 +165,21 @@ fun CompanyItem(
                 Image(
                     modifier = Modifier
                         .padding(start = 12.dp)
-                        .size(16.dp),
+                        .size(16.dp)
+                        .clickable {
+                            onEyeButtonClick.invoke()
+                        },
                     painter = painterResource(id = R.drawable.ic_eye),
                     contentDescription = null,
                 )
 
                 Image(
-                    modifier = Modifier.size(16.dp).weight(1f),
+                    modifier = Modifier
+                        .size(16.dp)
+                        .weight(1f)
+                        .clickable {
+                            onTrashButtonClick.invoke()
+                        },
                     painter = painterResource(id = R.drawable.ic_trash),
                     contentDescription = null
                 )
@@ -175,18 +188,18 @@ fun CompanyItem(
                     modifier = Modifier
                         .height(28.dp)
                         .background(
-                            color = Color.LightGray,
+                            color = company.mainColor,
                             shape = RoundedCornerShape(4.dp)
                         )
                         .clickable {
-
+                            onDetailsButtonClick.invoke()
                         },
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         modifier = Modifier.padding(horizontal = 6.dp),
-                        text = "Подробнее",
-                        color = MainBlue
+                        text = stringResource(R.string.detailed),
+                        color = company.highlightTextColor
                     )
                 }
             }
@@ -214,6 +227,9 @@ fun CompanyItemPreview() {
             requiredSum = 5,
             markToCash = 19,
             cashToMark = 25,
-        )
+        ),
+        onEyeButtonClick = {},
+        onTrashButtonClick = {},
+        onDetailsButtonClick = {}
     )
 }
