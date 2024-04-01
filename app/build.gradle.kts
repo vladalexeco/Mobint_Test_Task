@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.kotlin.symbol.processing)
+    alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
@@ -66,4 +68,34 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //Room
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.room.compiler)
+    ksp(libs.androidx.room.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+
+    //Hilt
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+
+    //Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+
+    //Coil
+    implementation(libs.coil.compose)
+
+    //ViewModel+Lifecycle
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
+    //Network
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    //Paging
+    implementation(libs.androidx.paging)
+    implementation(libs.androidx.paging.compose)
 }
