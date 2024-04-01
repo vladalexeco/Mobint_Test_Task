@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import app.sample.mobinttesttask.presentation.theme.MobintTestTaskTheme
+import app.sample.mobinttesttask.presentation.ui.CompanyContainerScreen
 import app.sample.mobinttesttask.presentation.ui.CompanyScreen
 import app.sample.mobinttesttask.presentation.viewmodel.CompanyViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val viewModel = hiltViewModel<CompanyViewModel>()
                     val companies = viewModel.companyPagingFlow.collectAsLazyPagingItems()
-                    CompanyScreen(
+                    CompanyContainerScreen(
                         companies = companies
                     )
                 }
