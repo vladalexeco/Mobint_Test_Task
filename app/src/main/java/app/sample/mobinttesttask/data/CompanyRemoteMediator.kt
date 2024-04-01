@@ -1,26 +1,30 @@
 package app.sample.mobinttesttask.data
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
+import app.sample.mobinttesttask.core.utils.OffsetSaver
 import app.sample.mobinttesttask.data.local.CompanyDatabase
+import app.sample.mobinttesttask.data.local.model.CompanyEntity
 import app.sample.mobinttesttask.data.mappers.toCompanyEntity
-import app.sample.mobinttesttask.data.network.ApiService
-import app.sample.mobinttesttask.data.network.CompanyDataResponse
+import app.sample.mobinttesttask.data.network.NetworkCompanyClient
 import retrofit2.HttpException
+import retrofit2.Response
 import java.io.IOException
+import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
-class CompanyRemoteMediator(
+class CompanyRemoteMediator @Inject constructor(
     private val companyDb: CompanyDatabase,
-    private val companyApi: ApiService
-) : RemoteMediator<Int, CompanyDataResponse>(){
+    private val networkCompanyClient: NetworkCompanyClient
+) : RemoteMediator<Int, CompanyEntity>(){
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, CompanyDataResponse>
+        state: PagingState<Int, CompanyEntity>
     ): MediatorResult {
 
         return try {
@@ -36,30 +40,28 @@ class CompanyRemoteMediator(
                     if (lastItem == null) {
                         0
                     } else {
-                        lastItem.offset + state.config.pageSize
+                        OffsetSaver.getOffset() + state.config.pageSize
                     }
                 }
             }
 
-            val requestBody = mapOf(
-                "offset" to offset,
-                "limit" to state.config.pageSize
+            val listOfCompanyDto = networkCompanyClient.getCompanies(
+                offset = offset,
+                limit = state.config.pageSize
             )
 
-            val companyDataResponse = companyApi.getCompaniesFromRemoteDataServer(
-                requestBody = requestBody
-            )
-
-            val listOfCompanyDto = companyDataResponse.companies
+            if (listOfCompanyDto.isEmpty()) {
+                throw Exception("Bad response")
+            }
 
             companyDb.withTransaction {
+
                 if (loadType == LoadType.REFRESH) {
                     companyDb.companyDao().clearAll()
                 }
 
                 val listOfCompanyEntity = listOfCompanyDto.map { companyDto -> companyDto.toCompanyEntity() }
                 companyDb.companyDao().insertAll(listOfCompanyEntity)
-
             }
 
             MediatorResult.Success(
@@ -69,6 +71,8 @@ class CompanyRemoteMediator(
         } catch (e: IOException) {
             MediatorResult.Error(e)
         } catch (e: HttpException) {
+            MediatorResult.Error(e)
+        } catch (e: Exception) {
             MediatorResult.Error(e)
         }
     }

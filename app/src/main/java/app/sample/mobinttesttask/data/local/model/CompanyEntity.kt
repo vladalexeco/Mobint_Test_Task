@@ -8,7 +8,7 @@ data class CompanyEntity(
     @PrimaryKey
     val id: String,
     val companyName: String,
-    val logo: String,
+    val logo: String?,
     val backgroundColor: String,
     val mainColor: String,
     val cardBackgroundColor: String,

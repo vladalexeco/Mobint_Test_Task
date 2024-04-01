@@ -1,4 +1,4 @@
-package app.sample.mobinttesttask.ui.theme
+package app.sample.mobinttesttask.presentation.theme
 
 import android.app.Activity
 import android.os.Build

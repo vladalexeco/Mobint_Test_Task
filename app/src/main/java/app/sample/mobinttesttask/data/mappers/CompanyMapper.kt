@@ -1,8 +1,10 @@
 package app.sample.mobinttesttask.data.mappers
 
+import androidx.compose.ui.graphics.Color
 import app.sample.mobinttesttask.data.local.model.CompanyEntity
 import app.sample.mobinttesttask.data.network.model.CompanyDto
 import app.sample.mobinttesttask.domain.model.Company
+import android.graphics.Color as ColorParser
 
 fun CompanyDto.toCompanyEntity(): CompanyEntity {
     return CompanyEntity(
@@ -29,12 +31,12 @@ fun CompanyEntity.toCompany(): Company {
         id = id,
         companyName = companyName,
         logo = logo,
-        backgroundColor = backgroundColor,
-        mainColor = mainColor,
-        cardBackgroundColor = cardBackgroundColor,
-        textColor = textColor,
-        highlightTextColor = highlightTextColor,
-        accentColor = accentColor,
+        backgroundColor = Color(ColorParser.parseColor(backgroundColor)),
+        mainColor = Color(ColorParser.parseColor(mainColor)),
+        cardBackgroundColor = Color(ColorParser.parseColor(cardBackgroundColor)),
+        textColor = Color(ColorParser.parseColor(textColor)),
+        highlightTextColor = Color(ColorParser.parseColor(highlightTextColor)),
+        accentColor = Color(ColorParser.parseColor(accentColor)),
         mark = mark,
         number = number,
         loyaltyName = loyaltyName,
